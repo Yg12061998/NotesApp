@@ -15,4 +15,7 @@
     <string name="bullet">•</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="dummy_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eleifend eu enim ac consequat. Integer eu velit ipsum. Etiam dignissim massa in turpis sollicitudin, sit amet rutrum ligula hendrerit. Nunc interdum odio nec nunc feugiat, vitae consequat sem congue. Nulla vel scelerisque velit, vitae vulputate arcu. Pellentesque fringilla eleifend diam, non elementum diam feugiat sit amet. Ut ac purus et enim porttitor tristique. Mauris ullamcorper felis pulvinar eros semper, ut pharetra nulla tristique. Donec aliquet, orci eget ullamcorper cursus, nisl turpis vulputate lacus, nec blandit velit dui tristique metus</string>
+
+
 </resources>

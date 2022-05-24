@@ -19,6 +19,15 @@ class NotesAdapter(
         fun bind(index: Int, note: Note, listener: OnNotesClickListener) = binding.apply {
             data = note
             executePendingBindings()
+            imgDelete.setOnClickListener {
+                listener.onDelete(index)
+            }
+            imgEdit.setOnClickListener {
+                listener.onEdit(index)
+            }
+            clRoot.setOnClickListener {
+                listener.onClick(index)
+            }
         }
     }
 
