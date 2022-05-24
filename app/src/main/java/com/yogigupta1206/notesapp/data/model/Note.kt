@@ -6,7 +6,9 @@ import androidx.room.PrimaryKey
 @Entity
 data class Note(
     @PrimaryKey(autoGenerate = true)
-    val noteId: Long,
+    var noteId: Int = 0,
     var title: String?,
     var description: String?
-)
+) {
+    constructor() : this(0,"","")
+}

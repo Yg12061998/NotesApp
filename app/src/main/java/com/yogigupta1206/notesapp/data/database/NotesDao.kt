@@ -19,7 +19,7 @@ interface NotesDao {
     suspend fun getAllNotes(): List<Note>
 
     @Query("UPDATE Note SET title=:title, description=:description where noteId=:id")
-    suspend fun updateNote(id: Int, title:String?, description:String?): List<Note>
+    suspend fun updateNote(id: Int, title:String?, description:String?)
 
     @Delete
     suspend fun deleteNote(note:Note)

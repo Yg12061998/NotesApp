@@ -1,5 +1,6 @@
 package com.yogigupta1206.notesapp.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -20,13 +21,13 @@ class NotesAdapter(
             data = note
             executePendingBindings()
             imgDelete.setOnClickListener {
-                listener.onDelete(index)
+                listener.onDelete(index, note)
             }
             imgEdit.setOnClickListener {
-                listener.onEdit(index)
+                listener.onEdit(index, note)
             }
             clRoot.setOnClickListener {
-                listener.onClick(index)
+                listener.onClick(index, note)
             }
         }
     }
@@ -42,11 +43,41 @@ class NotesAdapter(
         holder.bind(position, list[position], listener)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun submitList(newList: MutableList<Note>){
+        list.clear()
+        list.addAll(newList)
+        notifyDataSetChanged()
+    }
+
+    fun deletePosition(index: Int){
+        list.removeAt(index)
+        notifyItemRemoved(index)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun deleteAll(){
+        list.clear()
+        notifyDataSetChanged()
+    }
+
+    fun updatePosition(index: Int, note: Note){
+        list[index].title = note.title
+        list[index].description = note.description
+        list[index].noteId = note.noteId
+        notifyItemChanged(index)
+    }
+
+    fun addData(note: Note){
+        list.add(0, note)
+        notifyItemInserted(0)
+    }
+
     override fun getItemCount(): Int  = list.size
 
     interface OnNotesClickListener {
-        fun onClick(index: Int)
-        fun onEdit(index: Int)
-        fun onDelete(index: Int)
+        fun onClick(index: Int, note: Note)
+        fun onEdit(index: Int, note: Note)
+        fun onDelete(index: Int, note: Note)
     }
 }

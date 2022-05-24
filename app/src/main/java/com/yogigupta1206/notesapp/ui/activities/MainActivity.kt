@@ -2,6 +2,7 @@ package com.yogigupta1206.notesapp.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
@@ -9,8 +10,11 @@ import androidx.activity.viewModels
 import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yogigupta1206.notesapp.R
+import com.yogigupta1206.notesapp.data.model.Note
 import com.yogigupta1206.notesapp.databinding.ActivityMainBinding
 import com.yogigupta1206.notesapp.ui.adapter.NotesAdapter
+import com.yogigupta1206.notesapp.ui.fragments.AddNotesFragment
+import com.yogigupta1206.notesapp.utils.*
 import com.yogigupta1206.notesapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,35 +31,104 @@ class MainActivity : AppCompatActivity() {
         setContentView(mBinding.root)
 
         setClickListeners()
+        setObservers()
         setAdapter()
+        viewModel.init()
+    }
+
+    private fun setObservers() {
+        viewModel.uiState.observe(this) {
+            when (it) {
+                is MainViewModel.UiState.Loading -> {
+                    mBinding.progress.show()
+                }
+                is MainViewModel.UiState.LoadingFinish -> {
+                    mBinding.progress.hide()
+                }
+                is MainViewModel.UiState.ErrorState -> {
+                    mBinding.txtNoData.show()
+                    mBinding.btnDeleteAll.hide()
+                }
+            }
+        }
+
+        viewModel.notesDataQuery.observe(this){
+            when(it){
+                MainViewModel.NotesDataQuery.DeleteAllData -> {
+                    notesAdapter?.deleteAll()
+                }
+                is MainViewModel.NotesDataQuery.AddAllData -> {
+                    mBinding.txtNoData.hide()
+                    mBinding.btnDeleteAll.show()
+                    notesAdapter?.submitList(it.list)
+                }
+                is MainViewModel.NotesDataQuery.DeleteDataAtPosition -> {
+                    notesAdapter?.deletePosition(it.index)
+                }
+                is MainViewModel.NotesDataQuery.AddData -> {
+                    mBinding.txtNoData.hide()
+                    mBinding.btnDeleteAll.show()
+                    notesAdapter?.addData(it.note)
+                }
+
+                is MainViewModel.NotesDataQuery.UpdateDataAtPosition -> {
+                    notesAdapter?.updatePosition(it.index, it.note)
+                }
+            }
+        }
+
     }
 
     private fun setClickListeners() {
         mBinding.btnAdd.setOnClickListener {
-            //TODO("Not yet implemented")
+            navigateToAddUpdateFragment(purpose = FOR_ADDING_DATA)
         }
+
         mBinding.btnDeleteAll.setOnClickListener {
-            //TODO("Not yet implemented")
+            viewModel.deleteAllData()
         }
     }
 
     private fun setAdapter() {
         notesAdapter = NotesAdapter(object : NotesAdapter.OnNotesClickListener{
-            override fun onClick(index: Int) {
-                //TODO("Not yet implemented")
+            override fun onClick(index: Int, note: Note) {
+                viewModel
             }
 
-            override fun onEdit(index: Int) {
-                //TODO("Not yet implemented")
+            override fun onEdit(index: Int, note: Note) {
+                navigateToAddUpdateFragment(FOR_UPDATING_DATA, index ,note)
             }
 
-            override fun onDelete(index: Int) {
-                //TODO("Not yet implemented")
+            override fun onDelete(index: Int, note: Note) {
+                viewModel.deleteData(index, note)
             }
         })
 
         mBinding.recyclerView.layoutManager = LinearLayoutManager(this)
         mBinding.recyclerView.adapter = notesAdapter
+    }
+
+    private fun navigateToAddUpdateFragment(purpose: Int, index:Int = 0, note: Note? = null) {
+
+        val fragment = AddNotesFragment()
+        val bundle = Bundle()
+        bundle.putInt(ADD_UPDATE_CALLED_FOR, purpose)
+
+        if(purpose == FOR_UPDATING_DATA){
+            bundle.putInt(INDEX, index)
+            note?.let {
+                bundle.putInt(NOTE_ID, it.noteId)
+                bundle.putString(TITLE, it.title)
+                bundle.putString(DESCRIPTION, it.description)
+            }
+        }
+
+        fragment.arguments = bundle
+
+        addReplaceFragment(R.id.container, fragment ,
+            addFragment = true,
+            addToBackStack = true
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
