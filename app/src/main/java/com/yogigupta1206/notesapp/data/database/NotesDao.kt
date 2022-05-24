@@ -1,5 +1,6 @@
 package com.yogigupta1206.notesapp.data.database
 
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -20,6 +21,9 @@ interface NotesDao {
     suspend fun getAllNotes(): List<Note>
 
     @Query("UPDATE Note SET title=:title, description=:description where noteId=:id")
-    suspend fun updateNote(id: Long, title:String?, description:String ): List<Note>
+    suspend fun updateNote(id: Long, title:String?, description:String?): List<Note>
+
+    @Delete
+    suspend fun deleteNote(note:Note)
 
 }

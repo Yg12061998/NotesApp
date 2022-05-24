@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.yogigupta1206.notesapp.R
 import com.yogigupta1206.notesapp.databinding.FragmentAddNotesBinding
 import com.yogigupta1206.notesapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddNotesFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
-    private lateinit var mBindings: FragmentAddNotesBinding
+    private lateinit var mBinding: FragmentAddNotesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +25,23 @@ class AddNotesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        mBindings = FragmentAddNotesBinding.inflate(layoutInflater, container, false)
-        return mBindings.root
+        mBinding = FragmentAddNotesBinding.inflate(layoutInflater, container, false)
+        return mBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setClickListeners()
+    }
+
+    private fun setClickListeners() {
+        mBinding.btnSave.setOnClickListener {
+            //TODO("Not yet implemented")
+        }
+        mBinding.btnCancel.setOnClickListener {
+            //TODO("Not yet implemented")
+        }
     }
 
 }
