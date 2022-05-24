@@ -22,8 +22,9 @@ class NotesRepository @Inject constructor(
         return false
     }
 
-    suspend fun insertData(note: Note){
+    suspend fun insertData(note: Note): Note {
         dao.insertNote(note)
+        return dao.getLastEntry()
     }
 
     suspend fun deleteAllNotes(){
