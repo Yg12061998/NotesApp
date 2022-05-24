@@ -1,7 +1,9 @@
 package com.yogigupta1206.notesapp.repository
 
+import android.util.Log
 import com.yogigupta1206.notesapp.data.database.NotesDao
 import com.yogigupta1206.notesapp.data.model.Note
+import com.yogigupta1206.notesapp.utils.getCurrentEpochTime
 import javax.inject.Inject
 
 class NotesRepository @Inject constructor(
@@ -10,7 +12,7 @@ class NotesRepository @Inject constructor(
 
     suspend fun getNotesData(): MutableList<Note> {
         val data = mutableListOf<Note>()
-        if(!isDataAvailable()){
+        if(isDataAvailable()){
             data.addAll(dao.getAllNotes())
         }
         return data
@@ -23,6 +25,7 @@ class NotesRepository @Inject constructor(
     }
 
     suspend fun insertData(note: Note): Note {
+        note.timeStamp = getCurrentEpochTime()
         dao.insertNote(note)
         return dao.getLastEntry()
     }
@@ -35,8 +38,10 @@ class NotesRepository @Inject constructor(
         dao.deleteNote(note)
     }
 
-    suspend fun updateNote(note:Note){
-        dao.updateNote(note.noteId, note.title, note.description)
+    suspend fun updateNote(note:Note): Note {
+        note.timeStamp = getCurrentEpochTime()
+        dao.updateNote(note.noteId, note.title, note.description, note.timeStamp)
+        return dao.getLastEntry()
     }
 
 }

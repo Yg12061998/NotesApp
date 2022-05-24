@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -69,10 +70,12 @@ class MainActivity : AppCompatActivity() {
                     mBinding.txtNoData.hide()
                     mBinding.btnDeleteAll.show()
                     notesAdapter?.addData(it.note)
+                    notesAdapter?.notifyDataSetChanged()
                 }
 
                 is MainViewModel.NotesDataQuery.UpdateDataAtPosition -> {
                     notesAdapter?.updatePosition(it.index, it.note)
+                    notesAdapter?.notifyDataSetChanged()
                 }
             }
         }
@@ -92,7 +95,7 @@ class MainActivity : AppCompatActivity() {
     private fun setAdapter() {
         notesAdapter = NotesAdapter(object : NotesAdapter.OnNotesClickListener{
             override fun onClick(index: Int, note: Note) {
-                viewModel
+                Toast.makeText(this@MainActivity, "$index", Toast.LENGTH_SHORT).show()
             }
 
             override fun onEdit(index: Int, note: Note) {

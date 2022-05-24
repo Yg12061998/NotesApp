@@ -18,13 +18,13 @@ interface NotesDao {
     @Query("SELECT * FROM Note ORDER BY noteId DESC")
     suspend fun getAllNotes(): List<Note>
 
-    @Query("UPDATE Note SET title=:title, description=:description where noteId=:id")
-    suspend fun updateNote(id: Int, title:String?, description:String?)
+    @Query("UPDATE Note SET title=:title, description=:description, timeStamp=:timeStamp WHERE noteId=:id")
+    suspend fun updateNote(id: Int, title:String?, description:String?, timeStamp: Long)
 
     @Delete
     suspend fun deleteNote(note:Note)
 
-    @Query("SELECT * FROM Note ORDER BY noteId DESC LIMIT 1")
+    @Query("SELECT * FROM Note ORDER BY timeStamp DESC LIMIT 1")
     suspend fun getLastEntry(): Note
 
 }

@@ -50,9 +50,11 @@ class NotesAdapter(
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun deletePosition(index: Int){
         list.removeAt(index)
         notifyItemRemoved(index)
+        notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -62,10 +64,9 @@ class NotesAdapter(
     }
 
     fun updatePosition(index: Int, note: Note){
-        list[index].title = note.title
-        list[index].description = note.description
-        list[index].noteId = note.noteId
-        notifyItemChanged(index)
+        list.removeAt(index)
+        notifyItemRemoved(index)
+        addData(note)
     }
 
     fun addData(note: Note){

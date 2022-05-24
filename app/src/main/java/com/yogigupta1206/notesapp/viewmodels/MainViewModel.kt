@@ -14,7 +14,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import java.util.function.Predicate
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -165,6 +167,7 @@ class MainViewModel @Inject constructor(
         noteData?.let {
             note = it
         }
+        Log.d("Testing", "initAddUpdateFragment() called: index $index")
         updateNoteAtIndex = index
         addUpdateCalledFor = purpose
 
@@ -176,19 +179,26 @@ class MainViewModel @Inject constructor(
     }
 
     fun saveData(title: String, description: String) {
+        Log.d("Testing", "saveData() called")
         val noteData = Note(title = title, description = description)
         viewModelScope.launch {
 
             if (addUpdateCalledFor == FOR_ADDING_DATA) {
                 val data = withContext(Dispatchers.IO) { repository.insertData(noteData) }
-                notesData.add(data)
-                _notesDataQuery.value = NotesDataQuery.AddData(note)
+                Log.d("Testing", "returned from insertData() called : $data")
+                notesData.add(0,data)
+                _notesDataQuery.value = NotesDataQuery.AddData(data)
+                closeFragment()
 
             } else {
                 noteData.noteId = note.noteId
-                withContext(Dispatchers.IO){ repository.updateNote(note) }
-                _notesDataQuery.value = NotesDataQuery.UpdateDataAtPosition(note, updateNoteAtIndex)
-
+                val data = withContext(Dispatchers.IO){ repository.updateNote(noteData) }
+                notesData = ArrayList(notesData.filter {
+                    it.noteId != noteData.noteId
+                })
+                notesData.add(0,data)
+                _notesDataQuery.value = NotesDataQuery.UpdateDataAtPosition(data, updateNoteAtIndex)
+                closeFragment()
             }
         }
     }

@@ -68,6 +68,7 @@ class AddNotesFragment : Fragment() {
 
     private fun setClickListeners() {
         mBinding.btnSave.setOnClickListener {
+            Log.d("Testing", "btnSave clicked")
             viewModel.saveData(mBinding.edtTitle.editText?.text.toString(), mBinding.edtDescription.editText?.text.toString())
         }
         mBinding.btnCancel.setOnClickListener {
