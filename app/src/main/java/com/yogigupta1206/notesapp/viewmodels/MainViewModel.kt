@@ -211,4 +211,8 @@ class MainViewModel @Inject constructor(
         _addOrRemoveFragmentEvent.value = null
     }
 
+    fun updateDataAfterDrag(fromPosition: Int, toPosition: Int) {
+        Collections.swap(notesData, fromPosition, toPosition)
+    }
+
 }

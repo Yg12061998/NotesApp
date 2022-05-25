@@ -1,15 +1,16 @@
 package com.yogigupta1206.notesapp.ui.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuItemCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.yogigupta1206.notesapp.R
 import com.yogigupta1206.notesapp.data.model.Note
 import com.yogigupta1206.notesapp.databinding.ActivityMainBinding
@@ -18,6 +19,7 @@ import com.yogigupta1206.notesapp.ui.fragments.AddNotesFragment
 import com.yogigupta1206.notesapp.utils.*
 import com.yogigupta1206.notesapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -109,6 +111,9 @@ class MainActivity : AppCompatActivity() {
 
         mBinding.recyclerView.layoutManager = LinearLayoutManager(this)
         mBinding.recyclerView.adapter = notesAdapter
+
+        val itemTouchHelper = ItemTouchHelper(simpleCallback)
+        itemTouchHelper.attachToRecyclerView(mBinding.recyclerView)
     }
 
     private fun navigateToAddUpdateFragment(purpose: Int, index:Int = 0, note: Note? = null) {
@@ -157,6 +162,26 @@ class MainActivity : AppCompatActivity() {
         val filteredList = viewModel.filter(text.toString())
         mBinding.recyclerView.layoutManager?.scrollToPosition(0)
         notesAdapter?.submitList(filteredList)
+    }
+
+    var simpleCallback: ItemTouchHelper.SimpleCallback = object : ItemTouchHelper.SimpleCallback(
+        ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
+        0
+    ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            val fromPosition = viewHolder.adapterPosition
+            val toPosition = target.adapterPosition
+            viewModel.updateDataAfterDrag(fromPosition, toPosition)
+            notesAdapter?.updatePositionAfterDrag(fromPosition, toPosition)
+            //recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
     }
 
 }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yogigupta1206.notesapp.R
 import com.yogigupta1206.notesapp.data.model.Note
 import com.yogigupta1206.notesapp.databinding.NoteSingleRowBinding
+import java.util.*
 
 class NotesAdapter(
     var listener: OnNotesClickListener
@@ -72,6 +73,12 @@ class NotesAdapter(
     fun addData(note: Note){
         list.add(0, note)
         notifyItemInserted(0)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updatePositionAfterDrag(fromPosition: Int, toPosition: Int) {
+        Collections.swap(list, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
     }
 
     override fun getItemCount(): Int  = list.size
