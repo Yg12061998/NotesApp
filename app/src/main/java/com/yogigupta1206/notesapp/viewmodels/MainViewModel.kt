@@ -167,7 +167,6 @@ class MainViewModel @Inject constructor(
         noteData?.let {
             note = it
         }
-        Log.d("Testing", "initAddUpdateFragment() called: index $index")
         updateNoteAtIndex = index
         addUpdateCalledFor = purpose
 
@@ -179,13 +178,11 @@ class MainViewModel @Inject constructor(
     }
 
     fun saveData(title: String, description: String) {
-        Log.d("Testing", "saveData() called")
         val noteData = Note(title = title, description = description)
         viewModelScope.launch {
 
             if (addUpdateCalledFor == FOR_ADDING_DATA) {
                 val data = withContext(Dispatchers.IO) { repository.insertData(noteData) }
-                Log.d("Testing", "returned from insertData() called : $data")
                 notesData.add(0,data)
                 _notesDataQuery.value = NotesDataQuery.AddData(data)
                 closeFragment()

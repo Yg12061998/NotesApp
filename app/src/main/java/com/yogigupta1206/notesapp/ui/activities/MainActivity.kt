@@ -2,6 +2,7 @@ package com.yogigupta1206.notesapp.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
@@ -176,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         notesAdapter?.submitList(filteredList)
     }
 
-    var simpleCallback: ItemTouchHelper.SimpleCallback = object : ItemTouchHelper.SimpleCallback(
+    private var simpleCallback: ItemTouchHelper.SimpleCallback = object : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
         0
     ) {
@@ -189,8 +190,12 @@ class MainActivity : AppCompatActivity() {
             val toPosition = target.adapterPosition
             viewModel.updateDataAfterDrag(fromPosition, toPosition)
             notesAdapter?.updatePositionAfterDrag(fromPosition, toPosition)
-            //recyclerView.adapter!!.notifyItemMoved(fromPosition, toPosition)
             return false
+        }
+
+        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            super.clearView(recyclerView, viewHolder)
+            notesAdapter?.notifyDataSet()
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}

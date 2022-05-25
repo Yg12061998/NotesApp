@@ -47,23 +47,25 @@ class NotesAdapter(
         holder.bind(position, list[position], listener)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun submitList(newList: MutableList<Note>){
         list.clear()
         list.addAll(newList)
-        notifyDataSetChanged()
+        notifyDataSet()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun deletePosition(index: Int){
         list.removeAt(index)
         notifyItemRemoved(index)
-        notifyDataSetChanged()
+        notifyDataSet()
+    }
+
+    fun deleteAll(){
+        list.clear()
+        notifyDataSet()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun deleteAll(){
-        list.clear()
+    fun notifyDataSet(){
         notifyDataSetChanged()
     }
 
@@ -71,14 +73,15 @@ class NotesAdapter(
         list.removeAt(index)
         notifyItemRemoved(index)
         addData(note)
+        notifyDataSet()
     }
 
     fun addData(note: Note){
         list.add(0, note)
         notifyItemInserted(0)
+        notifyDataSet()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun updatePositionAfterDrag(fromPosition: Int, toPosition: Int) {
         Collections.swap(list, fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
