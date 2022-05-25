@@ -1,5 +1,6 @@
 package com.yogigupta1206.notesapp.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -106,6 +107,17 @@ class MainActivity : AppCompatActivity() {
 
             override fun onDelete(index: Int, note: Note) {
                 viewModel.deleteData(index, note)
+            }
+
+            override fun onShare(note: Note) {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_SUBJECT, note.title)
+                    putExtra(Intent.EXTRA_TEXT, "**${note.title}** \n\n ${note.description}")
+                    type = "text/plain"
+                }
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
             }
         })
 

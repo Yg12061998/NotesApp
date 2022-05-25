@@ -27,6 +27,9 @@ class NotesAdapter(
             imgEdit.setOnClickListener {
                 listener.onEdit(index, note)
             }
+            imgShare.setOnClickListener {
+                listener.onShare(note)
+            }
             clRoot.setOnClickListener {
                 listener.onClick(index, note)
             }
@@ -87,5 +90,6 @@ class NotesAdapter(
         fun onClick(index: Int, note: Note)
         fun onEdit(index: Int, note: Note)
         fun onDelete(index: Int, note: Note)
+        fun onShare(note: Note)
     }
 }
