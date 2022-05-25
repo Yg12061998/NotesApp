@@ -1,6 +1,11 @@
 # NotesApp
 
-![honeyview_Screenshot_1653433544](https://user-images.githubusercontent.com/45495841/170146504-66d4af17-fa2c-4878-8a85-9996c763ad3d.png) ![honeyview_Screenshot_1653433527](https://user-images.githubusercontent.com/45495841/170146508-f60541ea-ef4f-4e01-b062-2e26ea8a5172.png) ![honeyview_Screenshot_1653433518](https://user-images.githubusercontent.com/45495841/170146509-4a4f64c2-ad8d-4da5-a538-3f54d75b6e1c.png) ![honeyview_Screenshot_1653433512](https://user-images.githubusercontent.com/45495841/170146568-1021da98-dc56-46e1-a70f-cd485193786f.png)
+![honeyview_Screenshot_1653473332](https://user-images.githubusercontent.com/45495841/170238722-f36e51de-2817-426b-88ce-bf1bbf4b469f.png)
+![honeyview_Screenshot_1653473309](https://user-images.githubusercontent.com/45495841/170238727-9aaa8cf8-3998-4c50-9379-a47d8b752a31.png)
+![honeyview_Screenshot_1653473260](https://user-images.githubusercontent.com/45495841/170238729-c9f47ec3-8170-427a-b8ac-c4e74ed97115.png)
+![honeyview_Screenshot_1653473259](https://user-images.githubusercontent.com/45495841/170238731-0c0ad11e-d5a2-404d-90cb-a2faf3489d7c.png)
+![honeyview_Screenshot_1653473256](https://user-images.githubusercontent.com/45495841/170238732-09f16444-c19b-49a5-8fe4-02ffeaf2459d.png)
+
 
 It is an Demo Android App which uses Room Libarary to store Notes Created by user.
 
@@ -11,16 +16,18 @@ It is an Demo Android App which uses Room Libarary to store Notes Created by use
 3. Nice looking interface which completely uses Material Design 2.
 4. You can edit the saved notes.
 5. You can delete every note individually or you can delete in one click.
+6. You can share notes to anyone by any means(eg. Whatsapp, messages, etc.)
 
 ## Instructions
 
 1. When opens the app, it shows all the saved notes in reverse chronological order.
-2. When you click on Add button, then you open a new fragment where you put title and Description.
-3. After putting all the data, you can either save or cancel. When you save the data, it close that current fragment and update the recyclerview with the data.
-4. In every notes, there are 2 options first for edit, and second for deleting the data. 
-5. In homescreen there is delete all button at bottom right, it will help to clear all the data at once.
+2. You can view notes by clicking on any note. The title must remain in one line scrollable and description in multiple lines scrollable.
+3. When you click on Add button, then you open a new fragment where you put title and Description.
+4. After putting all the data, you can either save or cancel. When you save the data, it close that current fragment and update the recyclerview with the data.
+5. In every notes, there are 3 options first for edit, and second for share and third for deleting the data. 
+6. In homescreen there is delete all button at bottom right, it will help to clear all the data at once.
 
 ## Demo
 
 
-  [![[https://youtu.be/u9IWay2Ceo4](https://youtu.be/u9IWay2Ceo4)](http://img.youtube.com/vi/u9IWay2Ceo4/0.jpg)](http://www.youtube.com/watch?v=u9IWay2Ceo4)
+  [![[https://youtu.be/zigRiz9qsfw](https://youtu.be/zigRiz9qsfw)](http://img.youtube.com/vi/zigRiz9qsfw/0.jpg)](http://www.youtube.com/watch?v=zigRiz9qsfw)
