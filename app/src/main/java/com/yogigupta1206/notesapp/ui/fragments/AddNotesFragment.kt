@@ -1,6 +1,7 @@
 package com.yogigupta1206.notesapp.ui.fragments
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -35,13 +36,15 @@ class AddNotesFragment : Fragment() {
         setClickListeners()
 
         arguments?.let {
-            if(it.getInt(ADD_UPDATE_CALLED_FOR) == FOR_UPDATING_DATA){
+            val purpose = it.getInt(ADD_UPDATE_CALLED_FOR)
+            if(purpose == FOR_UPDATING_DATA || purpose == FOR_SHOWING_DATA){
                 val note = Note(
                     it.getInt(NOTE_ID),
                     it.getString(TITLE),
                     it.getString(DESCRIPTION)
                 )
-                viewModel.initAddUpdateFragment(FOR_UPDATING_DATA, it.getInt(INDEX) ,note )
+                Log.d("Testing", "$note")
+                viewModel.initAddUpdateFragment(purpose, it.getInt(INDEX) ,note )
             }
             else{
                 viewModel.initAddUpdateFragment(FOR_ADDING_DATA)
@@ -56,10 +59,33 @@ class AddNotesFragment : Fragment() {
                 is MainViewModel.AddOrRemoveFragmentEvent.Init -> {
                     mBinding.edtTitle.editText?.setText(it.note.title)
                     mBinding.edtDescription.editText?.setText(it.note.description)
+
+                    mBinding.btnSave.show()
+
+                    mBinding.edtTitle.visibility = View.VISIBLE
+                    mBinding.edtDescription.visibility =View.VISIBLE
+                    mBinding.txtTitle.visibility = View.INVISIBLE
+                    mBinding.txtDescription.visibility = View.INVISIBLE
                 }
                 MainViewModel.AddOrRemoveFragmentEvent.CloseFragment -> {
                     viewModel.setNullEvent()
                     activity?.supportFragmentManager?.popBackStack()
+                }
+                is MainViewModel.AddOrRemoveFragmentEvent.Show -> {
+
+                    Log.d("Testing", "${it.note}")
+
+                    mBinding.txtTitle.text = it.note.title
+                    mBinding.txtDescription.text = it.note.description
+
+                    mBinding.btnSave.hide()
+
+                    mBinding.txtTitle.visibility = View.VISIBLE
+                    mBinding.txtDescription.visibility = View.VISIBLE
+                    mBinding.txtTitle.movementMethod = ScrollingMovementMethod()
+                    mBinding.txtDescription.movementMethod = ScrollingMovementMethod()
+                    mBinding.edtTitle.visibility = View.INVISIBLE
+                    mBinding.edtDescription.visibility =View.INVISIBLE
                 }
                 null -> {}
             }

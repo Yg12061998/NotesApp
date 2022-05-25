@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
     private fun setAdapter() {
         notesAdapter = NotesAdapter(object : NotesAdapter.OnNotesClickListener{
             override fun onClick(index: Int, note: Note) {
-                Toast.makeText(this@MainActivity, "$index", Toast.LENGTH_SHORT).show()
+                navigateToAddUpdateFragment(FOR_SHOWING_DATA, index ,note)
             }
 
             override fun onEdit(index: Int, note: Note) {
@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putInt(ADD_UPDATE_CALLED_FOR, purpose)
 
-        if(purpose == FOR_UPDATING_DATA){
+        if(purpose == FOR_UPDATING_DATA || purpose == FOR_SHOWING_DATA){
             bundle.putInt(INDEX, index)
             note?.let {
                 bundle.putInt(NOTE_ID, it.noteId)
@@ -143,7 +143,6 @@ class MainActivity : AppCompatActivity() {
                 bundle.putString(DESCRIPTION, it.description)
             }
         }
-
         fragment.arguments = bundle
 
         addReplaceFragment(R.id.container, fragment ,

@@ -37,10 +37,13 @@
                 <TextView
                     android:id="@+id/txtTitle"
                     style="@style/bold16black70"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_12"
                     android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="@{data.title}"
+                    app:layout_constraintEnd_toStartOf="@id/imgEdit"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Title" />
@@ -71,15 +74,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_marginVertical="@dimen/dp_12"
                     android:id="@+id/imgShare"
                     android:layout_width="@dimen/dp_24"
                     android:layout_height="@dimen/dp_24"
+                    android:layout_marginVertical="@dimen/dp_12"
                     android:src="@drawable/ic_baseline_share_24"
                     app:layout_constraintBottom_toTopOf="@id/imgDelete"
                     app:layout_constraintEnd_toEndOf="@id/imgEdit"
-                    app:layout_constraintTop_toBottomOf="@id/imgEdit"
-                    app:layout_constraintStart_toStartOf="@id/imgEdit" />
+                    app:layout_constraintStart_toStartOf="@id/imgEdit"
+                    app:layout_constraintTop_toBottomOf="@id/imgEdit" />
 
                 <ImageView
                     android:id="@+id/imgDelete"
@@ -88,8 +91,8 @@
                     android:src="@drawable/ic_baseline_delete_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/imgEdit"
-                    app:layout_constraintTop_toBottomOf="@id/imgShare"
-                    app:layout_constraintStart_toStartOf="@id/imgEdit" />
+                    app:layout_constraintStart_toStartOf="@id/imgEdit"
+                    app:layout_constraintTop_toBottomOf="@id/imgShare" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

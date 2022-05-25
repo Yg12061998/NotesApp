@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.yogigupta1206.notesapp.data.model.Note
 import com.yogigupta1206.notesapp.repository.NotesRepository
 import com.yogigupta1206.notesapp.utils.FOR_ADDING_DATA
+import com.yogigupta1206.notesapp.utils.FOR_SHOWING_DATA
 import com.yogigupta1206.notesapp.utils.FOR_UPDATING_DATA
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -62,6 +63,10 @@ class MainViewModel @Inject constructor(
 
     sealed class AddOrRemoveFragmentEvent{
         data class Init(
+            val note: Note
+        ): AddOrRemoveFragmentEvent()
+
+        data class Show(
             val note: Note
         ): AddOrRemoveFragmentEvent()
 
@@ -170,10 +175,11 @@ class MainViewModel @Inject constructor(
         updateNoteAtIndex = index
         addUpdateCalledFor = purpose
 
-        if(purpose == FOR_UPDATING_DATA)
-            _addOrRemoveFragmentEvent.value = AddOrRemoveFragmentEvent.Init(note)
-        else
-            _addOrRemoveFragmentEvent.value = null
+        when (purpose) {
+            FOR_UPDATING_DATA -> _addOrRemoveFragmentEvent.value = AddOrRemoveFragmentEvent.Init(note)
+            FOR_SHOWING_DATA -> _addOrRemoveFragmentEvent.value = AddOrRemoveFragmentEvent.Show(note)
+            else -> _addOrRemoveFragmentEvent.value = null
+        }
 
     }
 
