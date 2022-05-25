@@ -7,7 +7,7 @@
 ![honeyview_Screenshot_1653473256](https://user-images.githubusercontent.com/45495841/170238732-09f16444-c19b-49a5-8fe4-02ffeaf2459d.png)
 
 
-It is an Demo Android App which uses Room Libarary to store Notes Created by user.
+It is an Android App which uses Room Libarary to store Notes Created by user.
 
 ## Features
 
